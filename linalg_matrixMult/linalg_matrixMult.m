@@ -255,16 +255,26 @@ C = A .* B
 syms a b c d e f g h k l m n o p q r s t u
 
 % symmetric and constant-diagonal matrices
-A = [ a b c d;
-      b a e f;
-      c e a h;
-      d f h a ];
+% A = [ a b c d;
+%       b a e f;
+%       c e a h;
+%       d f h a ];
+  
+A = [a b c d;
+     b a e c;
+     c e a b;
+     d c b a];
+
+% B = [ l m n o;
+%       m l q r;
+%       n q l t;
+%       o r t l ];
 
 B = [ l m n o;
-      m l q r;
-      n q l t;
-      o r t l ];
-
+      m l q n;
+      n q l m;
+      o n m l ];
+  
 % confirmation that A and B are symmetric
 A - A.'
 B - B.'
@@ -274,6 +284,8 @@ diag(A)
 diag(B)
 
 % but AB neq (AB)'
+A * B
+
 A*B - (A*B).'
 
 % maybe for a submatrix?
@@ -321,8 +333,9 @@ Anorm2 = sqrt( trace( A'*A ) );
 % Create a matrix
 A = [ 1 2 3; 4 5 6; 7 7 9 ];
 % optional orthogonal matrix to show that 2-norm is 1
-% [Q,R] = qr(randn(5));
-% A = Q;
+[Q,R] = qr(randn(5));
+A = Q;
+%disp(A * A')
 
 % Frobenius norm
 normFrob = norm(A,'fro');
@@ -334,7 +347,7 @@ normInd2 = norm(A);
 
 
 % schatten p-norm
-p = 1;
+p = 2;
 s = svd(A); % get singular values
 normSchat = sum(s.^p)^(1/p);
 
